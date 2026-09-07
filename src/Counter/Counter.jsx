@@ -16,8 +16,14 @@ class Counter extends Component {
 
     console.log("this.props: ", this.props); // працює
 
-    this.setState({
-      value: this.state.value + 1
+    // this.setState({
+    //   value: this.state.value + 1
+    // })
+
+    this.setState((prevState, props) => {
+      return{
+        value: prevState.value + props.step
+      }
     })
   };
 
@@ -28,8 +34,10 @@ class Counter extends Component {
     console.log("this.props: ", this.props); // працює
 
     
-    this.setState({
-      value: this.state.value - 1
+    this.setState((prevState, props) => {
+      return{
+        value: prevState.value - props.step
+      }
     })
   };
 
