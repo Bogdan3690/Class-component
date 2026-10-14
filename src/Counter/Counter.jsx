@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+const STORAGEDATA = "counterValue";
+
 class Counter extends Component {
   static defaultProps = {
     step: 1,
@@ -10,32 +12,34 @@ class Counter extends Component {
     value: this.props.initialValue,
   };
 
-   
   // Метод, який викликається після того, як компонент був відображений на сторінці
-
   componentDidMount() {
-    
     console.log("Компонент був доданий до DOM");
+
+    const savedValue = localStorage.getItem(STORAGEDATA);
+
+    console.log(typeof savedValue);
+    console.log(savedValue);
+    console.log(Number(savedValue));
+
+    if (savedValue) {
+      this.setState({ value: Number(savedValue) });
+    }
   }
 
   // Метод, який викликається після оновлення компонента (наприклад, зміни стану або властивостей)
 
   componentDidUpdate(prevProps, prevState) {
-
     console.log("Компонент був оновлений");
-
     console.log("Попередній стан:", prevState);
-
     console.log("Поточний стан:", this.state);
 
-    const prevValue = prevState.value
+    const prevValue = prevState.value;
+    const nextValue = this.state.value;
 
-    const nextValue = this.state.value
-
-    if (prevValue !== nextValue){
+    if (prevValue !== nextValue) {
       console.log(localStorage);
-      localStorage.setItem("counterValue", nextValue)
-      
+      localStorage.setItem(STORAGEDATA, nextValue);
     }
   }
 
@@ -47,7 +51,6 @@ class Counter extends Component {
 
   onIncriment = (evt) => {
     console.log("Increment button was clicked!", evt); // працює
-
     console.log("this.props: ", this.props); // працює
 
     // this.setState({
@@ -63,7 +66,6 @@ class Counter extends Component {
 
   onDicrement = (evt) => {
     console.log("Decrement button was clicked!", evt); // працює
-
     console.log("this.props: ", this.props); // працює
 
     this.setState((prevState, props) => {
