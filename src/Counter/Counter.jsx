@@ -1,8 +1,51 @@
-import { Component } from "react";
+import { Component, useState, useEffect } from "react";
 
 const STORAGEDATA = "counterValue";
 
-class Counter extends Component {
+const getDataFromLS = () => {
+  try {
+    return Number(localStorage.getItem(STORAGEDATA))
+  }
+  catch (e) {
+    return null
+  }
+}
+
+const Counter = ({ step = 1, initialValue = 0}) => {
+
+
+
+  const [value, setValue] = useState(getDataFromLS() ? getDataFromLS() : initialValue);
+
+
+  useEffect(() => {
+
+      localStorage.setItem(STORAGEDATA, value);
+
+  }, [value])
+
+ const onIncriment = () => {
+    setValue(value + step)
+  };
+
+   const onDicrement = () => {
+    setValue(value - step)
+  };
+
+  return(
+          <div>
+        <p>{value}</p>
+        <button onClick={onIncriment} type="button">
+          Increment by {step}
+        </button>
+        <button onClick={onDicrement} type="button">
+          Decrement by {step}
+        </button>
+      </div>
+  )
+}
+
+class CounterOne extends Component {
   static defaultProps = {
     step: 1,
     initialValue: 0,
@@ -12,8 +55,12 @@ class Counter extends Component {
     value: this.props.initialValue,
   };
 
+
+  
   // Метод, який викликається після того, як компонент був відображений на сторінці
   componentDidMount() {
+
+
     console.log("Компонент був доданий до DOM");
 
     const savedValue = localStorage.getItem(STORAGEDATA);
